@@ -31,7 +31,8 @@ MAINTAINER Bruno Borges <bruno.borges@oracle.com>
 
 # WLS Configuration
 # -------------------------------
-ARG ADMIN_PASSWORD
+#ARG ADMIN_PASSWORD
+ENV ADMIN_PASSWORD="welcome1"
 ENV DOMAIN_NAME="base_domain" \
     DOMAIN_HOME="/u01/oracle/user_projects/domains/base_domain" \
     ADMIN_PORT="8001" \
@@ -50,7 +51,7 @@ WORKDIR /u01/oracle
 RUN /u01/oracle/wlst /u01/oracle/create-wls-domain.py && \
     mkdir -p /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security && \
     echo "username=weblogic" > /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties && \ 
-    echo "password=weblogic123" >> /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties && \
+    echo "password=$ADMIN_PASSWORD" >> /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties && \
     echo ". /u01/oracle/user_projects/domains/base_domain/bin/setDomainEnv.sh" >> /u01/oracle/.bashrc && \ 
     echo "export PATH=$PATH:/u01/oracle/wlserver/common/bin:/u01/oracle/user_projects/domains/base_domain/bin" >> /u01/oracle/.bashrc && \
     cp /u01/oracle/commEnv.sh /u01/oracle/wlserver/common/bin/commEnv.sh && \
