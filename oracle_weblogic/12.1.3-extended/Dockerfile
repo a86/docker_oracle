@@ -56,18 +56,6 @@ RUN /u01/oracle/wlst /u01/oracle/create-wls-domain.py && \
     cp /u01/oracle/commEnv.sh /u01/oracle/wlserver/common/bin/commEnv.sh && \
     rm /u01/oracle/create-wls-domain.py /u01/oracle/jaxrs2-template.jar 
 
-# Configure Datasources
-RUN wlst -loadProperties /u01/oracle/datasource.properties /u01/oracle/ds-deploy.py && \
-    wlst /u01/oracle/jms-deploy.py
-
-# Deploy App
-# Define variables
-ENV APP_NAME="sample" \
-    APP_PKG_FILE="sample.war" \
-    APP_PKG_LOCATION="/u01/oracle"
-
-RUN wlst /u01/oracle/app-deploy.py
-
 # Expose Node Manager default port, and also default http/https ports for admin console
 EXPOSE $NM_PORT $ADMIN_PORT $MS_PORT
 
@@ -75,3 +63,4 @@ WORKDIR $DOMAIN_HOME
 
 # Define default command to start bash. 
 CMD ["startWebLogic.sh"]
+
